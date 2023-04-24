@@ -1,15 +1,15 @@
-set#1-Question1:
+(Query 1)-set#1-Question1:
 Create a query that lists each movie, the film category it is classified in, and the number of times it has been rented out.
 
-set#1-Question2:
+(Query 2)-set#1-Question2:
 provide a table with the movie titles and divide them into 4 levels (first_quarter, second_quarter, third_quarter, and final_quarter) based on the quartiles (25%, 50%, 75%) of the average rental duration(in the number of days) for movies across all categories?
 
-set#1-Question3:
+(Query 3)-set#1-Question3:
 provide a table with the family-friendly film category, each of the quartiles, and the corresponding count of movies within each combination of film category for each corresponding rental duration category. The resulting table should have three columns:
 	•	Category
 	•	Rental length category
 	•	Count
 
 
-set#2-Question1:
+(Query 4)-set#2-Question1 :
 Write a query that returns the store ID for the store, the year and month and the number of rental orders each store has fulfilled for that month. Your table should include a column for each of the following: year, month, store ID and count of rental orders fulfilled during that month.

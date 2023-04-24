@@ -1,0 +1,58 @@
+/* (Query 1)-set#1-Question1 */
+SELECT film_title, Category_name, COUNT(*) AS rental_count
+FROM ( /*subquery*/
+SELECT c.name AS Category_name, f.title AS film_title
+FROM category c
+JOIN film_category fc
+ON fc.category_id = c.category_id
+JOIN film f
+ON f.film_id = fc.film_id
+JOIN inventory i
+ON i.film_id = f.film_id
+JOIN rental r 
+ON r.inventory_id = i.inventory_id
+WHERE c.name IN ('Animation', 'Children', 'Classics', 'Comedy', 'Family', 'Music')
+ORDER BY title ) AS Movie
+GROUP BY 1, 2
+ORDER BY 2, 1
+
+
+/* (Query 2)-set#1-Question2 */
+SELECT title, name, rental_duration, NTILE(1) OVER (ORDER BY f.rental_duration) AS standard_quartile 
+FROM( /*subquery*/
+SELECT f.title AS title, c.name AS name, f.rental_duration AS rental_duration
+FROM film_category filmc
+JOIN category c
+ON c.category_id = filmc.category_id
+JOIN film f
+ON f.film_id = filmc.film_id
+WHERE c.name = 'Animation' OR c.name ='Children' OR c.name = 'Classics' OR c.name = 'Comedy' OR c.name = 'Family' OR c.name = 'Music' ) AS Movie
+ORDER BY 3
+
+
+/* (Query 3)-set#1-Question3 */
+SELECT name, standard_quartile,
+COUNT(standard_quartile)
+FROM ( /*subquery*/
+SELECT c.name, f.rental_duration,
+NTILE(4) OVER (ORDER BY f.rental_duration) AS standard_quartile /* Percentiles */
+FROM category AS c
+JOIN film_category AS filmc
+ON c.category_id = filmc.category_id
+JOIN film AS f
+ON filmc.film_id = f.film_id
+WHERE c.name = 'Animation' OR c.name ='Children' OR c.name = 'Classics' OR c.name = 'Comedy' OR c.name = 'Family' OR c.name = 'Music') AS Movie /* Case statements */
+GROUP BY 1, 2
+ORDER BY 1, 2;
+
+
+
+/* (Query 4)-set#2-Question1 */
+SELECT DATE_PART('month', r.rental_date) AS Rental_month,
+DATE_PART('year', r.rental_date) AS Rental_year, s.store_id AS Store_id,
+COUNT(*) AS Count_rentals
+
+FROM rental AS r JOIN staff AS s
+ON r.staff_id = s.staff_id
+GROUP BY 1, 2, 3
+ORDER BY 4 DESC;
